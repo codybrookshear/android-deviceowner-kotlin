@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MDM</string>
+    <string name="profile_name">Sample Device Owner</string>
+</resources>
