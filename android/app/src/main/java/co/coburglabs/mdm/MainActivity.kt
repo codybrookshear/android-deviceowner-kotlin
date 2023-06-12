@@ -20,6 +20,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var doMessage : String = "App's device owner state is unknown"
+
+        if (savedInstanceState == null) {
+            val manager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+            doMessage = if (manager.isDeviceOwnerApp(applicationContext.packageName)) {
+                "App is device owner"
+            } else {
+                "App is not device owner"
+            }
+        }
+
+        Log.e(TAG, doMessage)
+
         setContent {
             MDMTheme {
                 // A surface container using the 'background' color from the theme
@@ -27,34 +41,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Status(doMessage)
                 }
-            }
-        }
-
-        if (savedInstanceState == null) {
-            val manager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-            if (!manager.isDeviceOwnerApp(applicationContext.packageName)) {
-                Log.e(TAG, "This app is not device owner!")
-            } else {
-                Log.e(TAG, "device owner!")
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Status(text: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = text,
         modifier = modifier
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun StatusPreview() {
     MDMTheme {
-        Greeting("Android")
+        Status("TBD")
     }
 }
